@@ -30,4 +30,9 @@ public interface UserProvider {
      */
     List<User> findAllUsers();
 
+    List<User> findSmallAllUsers();
+
+    Optional<User> getUserByEmailIgnore(String email);
+
+    Optional<User> findUserByEmail(String email);
 }

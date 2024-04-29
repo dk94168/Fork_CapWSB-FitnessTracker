@@ -20,4 +20,16 @@ interface UserRepository extends JpaRepository<User, Long> {
                         .findFirst();
     }
 
+    default Optional<User> findByEmailIgnore(String email) {
+        return findAll().stream()
+                .filter(user -> user.getEmail().equalsIgnoreCase(email))
+                .findFirst();
+    }
+
+    default Optional<User> findByEmailSearch(String email) {
+        return findAll().stream()
+                .filter(user -> user.getEmail().toLowerCase().contains(email.toLowerCase()))
+                .findFirst();
+    }
+
 }

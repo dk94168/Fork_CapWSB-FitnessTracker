@@ -37,8 +37,19 @@ class UserServiceImpl implements UserService, UserProvider {
     }
 
     @Override
+    public Optional<User> getUserByEmailIgnore(final String email) {
+        return userRepository.findByEmailIgnore(email);
+    }
+
+    @Override
     public List<User> findAllUsers() {
         return userRepository.findAll();
     }
+
+    @Override
+    public List<User> findSmallAllUsers() { return userRepository.findAll(); }
+
+    @Override
+    public Optional<User> findUserByEmail(final String email) { return userRepository.findByEmailSearch(email); }
 
 }
