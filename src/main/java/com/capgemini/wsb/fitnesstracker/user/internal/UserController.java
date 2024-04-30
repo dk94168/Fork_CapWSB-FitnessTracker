@@ -4,6 +4,8 @@ import com.capgemini.wsb.fitnesstracker.user.api.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -22,18 +24,10 @@ class UserController {
     @GetMapping("/fullUsers")
     public List<UserDto> getAllUsers() {
         return userService.findAllUsers()
-                          .stream()
-                          .map(userMapper::toDto)
-                          .toList();
+                .stream()
+                .map(userMapper::toDto)
+                .toList();
     }
-
-    //@GetMapping("/byId/{id}")
-    //public List<UserDto> getUserById() {
-    //    return userService.findAllUsers()
-    //            .stream()
-    //            .map(userMapper::toDto)
-    //            .toList();
-    //}
 
     @GetMapping("/byId/{id}")
     public Optional<UserDto> getUserById(@PathVariable Long id) {
