@@ -5,6 +5,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Objects;
 import java.util.Optional;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.time.LocalDate;
 
 interface UserRepository extends JpaRepository<User, Long> {
 
@@ -30,6 +33,12 @@ interface UserRepository extends JpaRepository<User, Long> {
         return findAll().stream()
                 .filter(user -> user.getEmail().toLowerCase().contains(email.toLowerCase()))
                 .findFirst();
+    }
+
+    default List<User> findUsersByDate(LocalDate birthdate) {
+        return findAll().stream()
+                .filter(user -> user.getBirthdate().isAfter(birthdate))
+                .collect(Collectors.toList());
     }
 
 }

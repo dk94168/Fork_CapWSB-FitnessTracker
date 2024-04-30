@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -51,5 +52,8 @@ class UserServiceImpl implements UserService, UserProvider {
 
     @Override
     public Optional<User> findUserByEmail(final String email) { return userRepository.findByEmailSearch(email); }
+
+    @Override
+    public List<User> findUsersByBirthdate(LocalDate birthdate) { return userRepository.findUsersByDate(birthdate); }
 
 }

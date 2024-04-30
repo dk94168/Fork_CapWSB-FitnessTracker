@@ -1,5 +1,6 @@
 package com.capgemini.wsb.fitnesstracker.user.internal;
 
+import com.capgemini.wsb.fitnesstracker.user.api.User;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.annotation.Nullable;
 
@@ -16,5 +17,9 @@ record SmallUserDto(@Nullable Long Id, String firstName, String lastName) {
 }
 
 record SmallEmailUserDto(@Nullable Long Id, String email) {
+
+}
+
+record SmallUsersDateDto(@Nullable Long Id, String firstName, String lastName, LocalDate birthdate) {
 
 }

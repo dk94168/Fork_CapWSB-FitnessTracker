@@ -6,6 +6,7 @@ import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -58,6 +59,14 @@ class UserController {
     public Optional<SmallEmailUserDto> getUserByEmailSearch(@PathVariable String email) {
         return userService.findUserByEmail(email)
                 .map(userMapper::smallEmailToDto);
+    }
+
+    @GetMapping("/byDateSearch/{birthdate}")
+    public List<SmallUsersDateDto> findUsersByDate(@PathVariable LocalDate birthdate) {
+        return userService.findUsersByBirthdate(birthdate)
+                .stream()
+                .map(userMapper::smallUsersDateDto)
+                .toList();
     }
 
     @GetMapping("/smallUsers")
