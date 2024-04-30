@@ -43,5 +43,6 @@ interface UserRepository extends JpaRepository<User, Long> {
                 .collect(Collectors.toList());
     }
 
+    void delete(User user);
 
 }

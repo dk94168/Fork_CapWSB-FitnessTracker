@@ -1,5 +1,7 @@
 package com.capgemini.wsb.fitnesstracker.user.api;
 
+import com.capgemini.wsb.fitnesstracker.statistics.api.Statistics;
+import com.capgemini.wsb.fitnesstracker.training.api.Training;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -8,6 +10,8 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.ArrayList;
 
 @Entity
 @Table(name = "users")
@@ -32,6 +36,14 @@ public class User {
 
     @Column(nullable = false, unique = true)
     private String email;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Training> itemsTraining = new ArrayList<Training>();
+
+
+    // Zmiana zmiennej z user na userStat w Statistics.java
+    @OneToMany(mappedBy = "userStat", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Statistics> itemsStatistic = new ArrayList<Statistics>();
 
     public User(
             final String firstName,

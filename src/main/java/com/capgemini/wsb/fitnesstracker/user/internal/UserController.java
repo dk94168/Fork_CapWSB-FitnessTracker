@@ -21,6 +21,12 @@ class UserController {
 
     private final UserMapper userMapper;
 
+    @DeleteMapping("/removeUser/{id}")
+    public ResponseEntity<?> deleteUser(@PathVariable Long id) {
+        userService.deleteUser(id);
+        return ResponseEntity.ok("Użytkownik został usunięty, ID: " + id);
+    }
+
     @GetMapping("/fullUsers")
     public List<UserDto> getAllUsers() {
         return userService.findAllUsers()

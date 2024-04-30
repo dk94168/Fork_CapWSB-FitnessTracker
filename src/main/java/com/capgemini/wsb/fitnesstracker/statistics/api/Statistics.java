@@ -16,9 +16,11 @@ public class Statistics {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+
+    // Zmiana zmiennej z user na userStat w Statistics.java i User.java
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
-    private User user;
+    private User userStat;
 
     @Column(name = "total_trainings", nullable = false)
     private int totalTrainings;
