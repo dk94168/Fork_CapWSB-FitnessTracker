@@ -27,6 +27,13 @@ class UserController {
         return ResponseEntity.ok("Użytkownik został usunięty, ID: " + id);
     }
 
+    @PutMapping("/userUpdate/{userId}")
+    public ResponseEntity<Void> updateUser(@PathVariable Long userId, @RequestBody User updateUser) {
+        userService.updateUser(userId, updateUser);
+        return ResponseEntity.noContent().build();
+    }
+
+
     @GetMapping("/fullUsers")
     public List<UserDto> getAllUsers() {
         return userService.findAllUsers()

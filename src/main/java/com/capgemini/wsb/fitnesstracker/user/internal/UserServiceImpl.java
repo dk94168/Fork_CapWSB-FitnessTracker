@@ -38,15 +38,43 @@ class UserServiceImpl implements UserService, UserProvider {
 
         if (optionalUser.isPresent()) {
             User userDelete = optionalUser.get();
-            //userRepository.deleteOtherRelatedRecords(userDelete);
             userRepository.delete(userDelete);
-            //userRepository.delete(userDelete, { cascade: CascadeType.ALL });
             log.info("Deleting User with ID {}", userId);
         }
         else {
             throw new IllegalArgumentException("User with ID " + userId + " not found!");
         }
 
+    }
+
+    @Override
+    public void updateUser(Long userId, User updateUser) {
+        Optional<User> userOptional = userRepository.findById(userId);
+
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+
+            if (updateUser.getFirstName() != null) {
+                user.setFirstName(updateUser.getFirstName());
+            }
+
+            if (updateUser.getLastName() != null) {
+                user.setLastName(updateUser.getLastName());
+            }
+
+            if (updateUser.getEmail() != null) {
+                user.setEmail(updateUser.getEmail());
+            }
+
+            if (updateUser.getBirthdate() != null) {
+                user.setBirthdate(updateUser.getBirthdate());
+            }
+
+            log.info("Update User Data with ID {}", userId);
+            userRepository.save(user);
+        } else {
+            throw new IllegalArgumentException("User not found with id: " + userId);
+        }
     }
 
     @Override

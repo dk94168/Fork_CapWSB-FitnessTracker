@@ -18,7 +18,8 @@ interface UserRepository extends JpaRepository<User, Long> {
      * @return {@link Optional} containing found user or {@link Optional#empty()} if none matched
      */
 
-    void deleteUserById(Long id);
+    //void deleteUserById(Long id);
+
     default Optional<User> findByEmail(String email) {
         return findAll().stream()
                         .filter(user -> Objects.equals(user.getEmail(), email))
@@ -39,7 +40,7 @@ interface UserRepository extends JpaRepository<User, Long> {
 
     default List<User> findUsersByDate(LocalDate birthdate) {
         return findAll().stream()
-                .filter(user -> user.getBirthdate().isAfter(birthdate))
+                .filter(user -> user.getBirthdate().isBefore(birthdate))
                 .collect(Collectors.toList());
     }
 
