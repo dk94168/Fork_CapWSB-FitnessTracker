@@ -21,6 +21,7 @@ class UserController {
 
     private final UserMapper userMapper;
 
+
     @DeleteMapping("/removeUser/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable Long id) {
         try {
