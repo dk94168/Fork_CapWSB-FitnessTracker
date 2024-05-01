@@ -23,14 +23,24 @@ class UserController {
 
     @DeleteMapping("/removeUser/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable Long id) {
-        userService.deleteUser(id);
-        return ResponseEntity.ok("Użytkownik został usunięty, ID: " + id);
+        try {
+            userService.deleteUser(id);
+            return ResponseEntity.ok("Użytkownik został usunięty, ID: " + id);
+        }
+        catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(null);
+        }
     }
 
     @PutMapping("/userUpdate/{userId}")
     public ResponseEntity<Void> updateUser(@PathVariable Long userId, @RequestBody User updateUser) {
-        userService.updateUser(userId, updateUser);
-        return ResponseEntity.noContent().build();
+        try {
+            userService.updateUser(userId, updateUser);
+            return ResponseEntity.noContent().build();
+        }
+        catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(null);
+        }
     }
 
     @PostMapping("/addUser")

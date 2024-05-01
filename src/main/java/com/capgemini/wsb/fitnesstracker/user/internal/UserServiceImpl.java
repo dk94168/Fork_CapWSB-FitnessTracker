@@ -39,10 +39,11 @@ class UserServiceImpl implements UserService, UserProvider {
         if (optionalUser.isPresent()) {
             User userDelete = optionalUser.get();
             userRepository.delete(userDelete);
-            log.info("Deleting User with ID {}", userId);
+            log.info("Deleting user with ID {}", userId);
         }
         else {
-            throw new IllegalArgumentException("User with ID " + userId + " not found!");
+            log.info("User with ID: " + userId + " does not exist!");
+            throw new IllegalArgumentException("User with ID: " + userId + " does not exist!");
         }
 
     }
@@ -73,6 +74,7 @@ class UserServiceImpl implements UserService, UserProvider {
             log.info("Update User Data with ID {}", userId);
             userRepository.save(user);
         } else {
+            log.info("User not found with id: " + userId);
             throw new IllegalArgumentException("User not found with id: " + userId);
         }
     }
