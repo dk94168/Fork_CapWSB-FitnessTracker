@@ -27,6 +27,17 @@ curl --location 'localhost:8080/v1/users/byEmailSearch/Olivia'
 curl --location 'localhost:8080/v1/users/byDateSearch/1984-04-30'
 
 
+# Dodawanie nowego użytkownika
+curl --location 'localhost:8080/v1/users/addUser' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+        "firstName": "Kasia",
+        "lastName": "Nowak",
+        "birthdate": "1997-05-01",
+        "email": "kn@domain.com"
+}'
+
+
 # Aktualizacja danych użytkownika
 curl --location --request PUT 'localhost:8080/v1/users/userUpdate/2' \
 --header 'Content-Type: application/json' \

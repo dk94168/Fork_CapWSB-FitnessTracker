@@ -33,6 +33,15 @@ class UserController {
         return ResponseEntity.noContent().build();
     }
 
+    @PostMapping("/addUser")
+    public ResponseEntity<User> addUser(@RequestBody User user) {
+        try {
+            return ResponseEntity.ok(userService.addUser(user));
+        }
+        catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(null);
+        }
+    }
 
     @GetMapping("/fullUsers")
     public List<UserDto> getAllUsers() {
@@ -84,14 +93,14 @@ class UserController {
                 .toList();
     }
 
-    @PostMapping
-    public User addUser(@RequestBody UserDto userDto) {
-
-        // Demonstracja how to use @RequestBody
-        System.out.println("User with e-mail: " + userDto.email() + "passed to the request");
-
-        // TODO: saveUser with Service and return User
-        return null;
-    }
+    //@PostMapping
+    //public User addUser(@RequestBody UserDto userDto) {
+    //
+    // Demonstracja how to use @RequestBody
+    //    System.out.println("User with e-mail: " + userDto.email() + "passed to the request");
+    //
+    // TODO: saveUser with Service and return User
+    //    return null;
+    //}
 
 }

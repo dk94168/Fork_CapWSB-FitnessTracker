@@ -22,14 +22,14 @@ class UserServiceImpl implements UserService, UserProvider {
     @Autowired
     private final UserRepository userRepository;
 
-    @Override
-    public User createUser(final User user) {
-        log.info("Creating User {}", user);
-        if (user.getId() != null) {
-            throw new IllegalArgumentException("User has already DB ID, update is not permitted!");
-        }
-        return userRepository.save(user);
-    }
+    //@Override
+    //public User createUser(final User user) {
+    //    log.info("Creating User {}", user);
+    //    if (user.getId() != null) {
+    //        throw new IllegalArgumentException("User has already DB ID, update is not permitted!");
+    //    }
+    //    return userRepository.save(user);
+    //}
 
     @Override
     @Transactional
@@ -74,6 +74,18 @@ class UserServiceImpl implements UserService, UserProvider {
             userRepository.save(user);
         } else {
             throw new IllegalArgumentException("User not found with id: " + userId);
+        }
+    }
+
+    @Override
+    public User addUser(User user) {
+        if (userRepository.findByEmail(user.getEmail()).isPresent()){
+            log.info("Error: User already exists!");
+            throw new IllegalArgumentException("Error: User already exists!");
+        }
+        else {
+            log.info("Create a new user");
+            return userRepository.save(user);
         }
     }
 
