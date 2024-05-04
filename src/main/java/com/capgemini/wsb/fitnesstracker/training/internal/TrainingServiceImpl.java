@@ -14,6 +14,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class TrainingServiceImpl implements TrainingProvider {
 
+    private final TrainingRepository trainingRepository;
+
     @Override
     public Optional<User> getTraining(final Long trainingId) {
         throw new UnsupportedOperationException("Not finished yet");
@@ -21,7 +23,8 @@ public class TrainingServiceImpl implements TrainingProvider {
 
     @Override
     public List<Training> getTrainings() {
-        return null;
+        return trainingRepository.findAll();
     }
+
 
 }
