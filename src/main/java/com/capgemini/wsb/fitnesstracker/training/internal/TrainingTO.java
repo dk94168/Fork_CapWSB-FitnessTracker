@@ -11,6 +11,7 @@ import java.util.Date;
 public class TrainingTO {
     private Long id;
     private User user;
+
     private Date startTime;
     private Date endTime;
     private ActivityType activityType;
