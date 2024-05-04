@@ -15,4 +15,5 @@ public interface TrainingProvider {
      */
     Optional<User> getTraining(Long trainingId);
 
+    Optional<User> getTrainings()
 }
