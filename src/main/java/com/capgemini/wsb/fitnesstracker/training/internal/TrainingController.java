@@ -60,6 +60,19 @@ public class TrainingController {
                     .map(trainingMapper::toTraining).toList();
     }
 
+    @PutMapping("updateTraining/{trainingId}")
+    public ResponseEntity<Void> updateTraining(@PathVariable Long trainingId, @RequestBody Training updateTraining){
+        try {
+            trainingService.updateTraining(trainingId, updateTraining);
+            return ResponseEntity.noContent().build();
+        }
+        catch (IllegalArgumentException e){
+            log.info("Błąd w trakcie aktualizacji treningu");
+
+            return ResponseEntity.badRequest().body(null);
+        }
+    }
+
     @PostMapping("/addNewTraining")
     public ResponseEntity<Training> addNewTraining(@RequestBody Training training) {
         try {

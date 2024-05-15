@@ -3,6 +3,7 @@ package com.capgemini.wsb.fitnesstracker.training.internal;
 import com.capgemini.wsb.fitnesstracker.training.api.Training;
 
 import com.capgemini.wsb.fitnesstracker.training.api.TrainingProvider;
+import com.capgemini.wsb.fitnesstracker.training.internal.ActivityType;
 import com.capgemini.wsb.fitnesstracker.user.api.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -74,6 +75,51 @@ public class TrainingServiceImpl implements TrainingProvider {
                 .stream()
                 .filter((training -> training.getEndTime().compareTo(date) > 0))
                 .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public void updateTraining(Long trainingId, Training training) {
+        Optional<Training> trainingOptional = trainingRepository.findById(trainingId);
+
+        if (trainingOptional.isPresent()) {
+            log.info("Pobrano właściwy trening");
+
+            Training trainingExisting = trainingOptional.get();
+
+            if (training.getUser() != null){
+                trainingExisting.setUser(training.getUser());
+            }
+
+            if (training.getStartTime() != null){
+                trainingExisting.setStartTime(training.getStartTime());
+            }
+
+            if (training.getEndTime() != null){
+                trainingExisting.setEndTime(training.getEndTime());
+            }
+
+            if (training.getActivityType() != null){
+                trainingExisting.setActivityType(training.getActivityType());
+            }
+
+            // Typ prosty: double przy wartości null zwraca zawsze 0.0, a dystans treningu nie może mieć takiej wartości
+            if ( !(training.getDistance() == 0.0) ){
+                trainingExisting.setDistance(training.getDistance());
+            }
+
+            // Tup prosty: double przy wartości null zwraca zawsze 0.0
+            if ( !(training.getAverageSpeed() == 0.0) ){
+                trainingExisting.setAverageSpeed(training.getAverageSpeed());
+            }
+
+            log.info("Update Training Data with ID {}", trainingId);
+            trainingRepository.save(trainingExisting);
+        }
+        else{
+            log.info("Trainig not found with id: " + trainingId);
+            throw new IllegalArgumentException("Trainig not found with id: " + trainingId);
+        }
+
     }
 
     public Training addNewTraining(Training training) {

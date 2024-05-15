@@ -57,4 +57,15 @@ public class Training {
         this.averageSpeed = averageSpeed;
     }
 
+    public void setUser(User user) { this.user = user; }
+
+    public void setStartTime(Date startTime) { this.startTime = startTime; }
+
+    public void setEndTime(Date endTime) { this.endTime = endTime; }
+
+    public void setActivityType(ActivityType activityType) { this.activityType = activityType; }
+
+    public void setDistance(Double distance) { this.distance = distance; }
+
+    public void setAverageSpeed(Double averageSpeed) { this.averageSpeed = averageSpeed; }
 }
