@@ -160,9 +160,6 @@ public class TrainingServiceImpl implements TrainingProvider {
     @Transactional
     public Training addNewTraining(Training training) {
         log.info("Dodanie nowego treningu");
-
-        //Optional<User> userOptional = userRepository.findById(training.getUser().getId());
-        //User user = userOptional.get();
         User user = training.getUser();
 
         if (user.getId() == null) {
@@ -176,13 +173,7 @@ public class TrainingServiceImpl implements TrainingProvider {
 
         Training newTraining = new Training(user, training.getStartTime(), training.getEndTime(), training.getActivityType(), training.getDistance(), training.getAverageSpeed());
 
-        // Zapisz nowy trening w bazie danych
-        //Training newTraining = trainingRepository.save(training);
         log.info("Dodano nowy trening");
-
         return trainingRepository.save(newTraining);
-
-        //return  null;
-        //return newTraining;
     }
 }
