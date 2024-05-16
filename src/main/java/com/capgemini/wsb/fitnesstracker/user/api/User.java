@@ -58,6 +58,8 @@ public class User {
         this.email = email;
     }
 
+    public User(Long id){ this.id = id; }
+
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
@@ -74,8 +76,8 @@ public class User {
         this.email = email;
     }
 
-    @JsonProperty("id")
-    public void setId(int id) {
+    //@JsonProperty("id")
+    public void setId(Long id) {
         this.id = (long) id;
     }
 

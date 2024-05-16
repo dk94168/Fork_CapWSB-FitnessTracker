@@ -5,6 +5,7 @@ import com.capgemini.wsb.fitnesstracker.training.api.Training;
 import com.capgemini.wsb.fitnesstracker.training.api.TrainingProvider;
 import com.capgemini.wsb.fitnesstracker.training.internal.ActivityType;
 import com.capgemini.wsb.fitnesstracker.user.api.User;
+import com.capgemini.wsb.fitnesstracker.user.internal.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,7 @@ import java.util.stream.Collectors;
 public class TrainingServiceImpl implements TrainingProvider {
 
     private final TrainingRepository trainingRepository;
+    private final UserRepository userRepository;
 
     @Override
     public Optional<User> getTraining(final Long trainingId) {
@@ -87,7 +89,20 @@ public class TrainingServiceImpl implements TrainingProvider {
             Training trainingExisting = trainingOptional.get();
 
             if (training.getUser() != null){
-                trainingExisting.setUser(training.getUser());
+                //trainingExisting.setUser(training.getUser());
+
+                Optional<User> userOptional = userRepository.findById(training.getUser().getId());
+
+                if (userOptional.isPresent()) {
+                    User user = userOptional.get();
+                    log.info("New user:" + user.getId() );
+
+                    trainingExisting.setUser(user);
+                }
+                else{
+                    log.info("New user not found with id: " + training.getUser().getId() );
+                    throw new IllegalArgumentException("New user not found with id: " + training.getUser().getId() );
+                }
             }
 
             if (training.getStartTime() != null){

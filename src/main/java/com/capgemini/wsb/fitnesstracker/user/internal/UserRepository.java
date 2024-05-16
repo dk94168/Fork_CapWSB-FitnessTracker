@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.time.LocalDate;
 
-interface UserRepository extends JpaRepository<User, Long> {
+public interface UserRepository extends JpaRepository<User, Long> {
 
     /**
      * Query searching users by email address. It matches by exact match.
