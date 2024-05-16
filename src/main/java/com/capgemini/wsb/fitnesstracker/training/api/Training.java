@@ -21,7 +21,7 @@ public class Training {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE, fetch= FetchType.LAZY)   // CascadeType.ALL - poprawne CascadeType.MERGE or .PERSIST
     @JoinColumn(name = "user_id")
     private User user;
 

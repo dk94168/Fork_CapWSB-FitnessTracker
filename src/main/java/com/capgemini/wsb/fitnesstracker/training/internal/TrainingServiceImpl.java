@@ -5,10 +5,12 @@ import com.capgemini.wsb.fitnesstracker.training.api.Training;
 import com.capgemini.wsb.fitnesstracker.training.api.TrainingProvider;
 import com.capgemini.wsb.fitnesstracker.training.internal.ActivityType;
 import com.capgemini.wsb.fitnesstracker.user.api.User;
+import com.capgemini.wsb.fitnesstracker.user.api.UserService;
 import com.capgemini.wsb.fitnesstracker.user.internal.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +28,8 @@ public class TrainingServiceImpl implements TrainingProvider {
     private final TrainingRepository trainingRepository;
     private final UserRepository userRepository;
 
+    private final UserService userService;
+
     @Override
     public Optional<User> getTraining(final Long trainingId) {
         throw new UnsupportedOperationException("Not finished yet");
@@ -40,7 +44,7 @@ public class TrainingServiceImpl implements TrainingProvider {
 
     @Override
     public List<Training> getTrainingsByUserId(Long userId) {
-        log.info("Pobrano dane użytkownika o ID " +userId);
+        log.info("Pobrano dane użytkownika o ID " + userId);
 
         return trainingRepository.findAll()
                 .stream()
@@ -64,9 +68,8 @@ public class TrainingServiceImpl implements TrainingProvider {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
             dateTemp = sdf.parse(dateString);
-        }
-        catch (Exception e) {
-          e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         final Date date = dateTemp;
@@ -88,59 +91,98 @@ public class TrainingServiceImpl implements TrainingProvider {
 
             Training trainingExisting = trainingOptional.get();
 
-            if (training.getUser() != null){
+            if (training.getUser() != null) {
                 //trainingExisting.setUser(training.getUser());
 
                 Optional<User> userOptional = userRepository.findById(training.getUser().getId());
 
                 if (userOptional.isPresent()) {
                     User user = userOptional.get();
-                    log.info("New user:" + user.getId() );
+                    log.info("New user:" + user.getId());
 
                     trainingExisting.setUser(user);
-                }
-                else{
-                    log.info("New user not found with id: " + training.getUser().getId() );
-                    throw new IllegalArgumentException("New user not found with id: " + training.getUser().getId() );
+                } else {
+                    log.info("New user not found with id: " + training.getUser().getId());
+                    throw new IllegalArgumentException("New user not found with id: " + training.getUser().getId());
                 }
             }
 
-            if (training.getStartTime() != null){
+            if (training.getStartTime() != null) {
                 trainingExisting.setStartTime(training.getStartTime());
             }
 
-            if (training.getEndTime() != null){
+            if (training.getEndTime() != null) {
                 trainingExisting.setEndTime(training.getEndTime());
             }
 
-            if (training.getActivityType() != null){
+            if (training.getActivityType() != null) {
                 trainingExisting.setActivityType(training.getActivityType());
             }
 
             // Typ prosty: double przy wartości null zwraca zawsze 0.0, a dystans treningu nie może mieć takiej wartości
-            if ( !(training.getDistance() == 0.0) ){
+            if (!(training.getDistance() == 0.0)) {
                 trainingExisting.setDistance(training.getDistance());
             }
 
             // Tup prosty: double przy wartości null zwraca wartość 0.0
-            if ( !(training.getAverageSpeed() == 0.0) ){
+            if (!(training.getAverageSpeed() == 0.0)) {
                 trainingExisting.setAverageSpeed(training.getAverageSpeed());
             }
 
             log.info("Update Training Data with ID {}", trainingId);
             trainingRepository.save(trainingExisting);
-        }
-        else{
+        } else {
             log.info("Trainig not found with id: " + trainingId);
             throw new IllegalArgumentException("Trainig not found with id: " + trainingId);
         }
 
     }
 
+    //public Training addNewTraining(Training training) {
+    //Optional<User> userOptional = userRepository.findById(training.getUser().getId());
+
+    //User user = userService.getUser(2L);
+
+    //    Training newTraining = new Training(this.setUser(training.getUser().getId()),
+    //                                        this.setStartTime(training.getStartTime()),
+    //                                        this.setEndTime(training.getEndTime()),
+    //                                       this.setActivityType(training.getActivityType()),
+    //                                        this.setDistance(training.getDistance()),
+    //                                        this.setAverageSpeed(training.getAverageSpeed()) );
+
+    //    log.info("Dodanie nowego treningu");
+    //    return trainingRepository.save(newTraining);
+    //return null; //trainingRepository.save(training);
+    //}
+
+
+    @Override
+    @Transactional
     public Training addNewTraining(Training training) {
         log.info("Dodanie nowego treningu");
 
-        return trainingRepository.save(training);
-    }
+        //Optional<User> userOptional = userRepository.findById(training.getUser().getId());
+        //User user = userOptional.get();
+        User user = training.getUser();
 
+        if (user.getId() == null) {
+            log.info("Nie ma użyytkownika o ID:" + user.getId() );
+            User savedUser = userRepository.save(user);
+            training.setUser(savedUser);
+        }
+        else{
+            log.info("Użytkownik już istnieje o ID:" + user.getId() );
+        }
+
+        Training newTraining = new Training(user, training.getStartTime(), training.getEndTime(), training.getActivityType(), training.getDistance(), training.getAverageSpeed());
+
+        // Zapisz nowy trening w bazie danych
+        //Training newTraining = trainingRepository.save(training);
+        log.info("Dodano nowy trening");
+
+        return trainingRepository.save(newTraining);
+
+        //return  null;
+        //return newTraining;
+    }
 }

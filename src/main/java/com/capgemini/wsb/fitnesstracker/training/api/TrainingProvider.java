@@ -26,4 +26,6 @@ public interface TrainingProvider {
     List<Training> getTrainingsByActivity(ActivityType activity);
 
     List<Training> getTrainingsByAfterDate(String dateString);
+
+    Training addNewTraining(Training training);
 }
