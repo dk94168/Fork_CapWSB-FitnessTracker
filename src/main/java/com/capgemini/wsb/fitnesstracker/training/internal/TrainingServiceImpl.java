@@ -124,7 +124,7 @@ public class TrainingServiceImpl implements TrainingProvider {
                 trainingExisting.setDistance(training.getDistance());
             }
 
-            // Tup prosty: double przy wartości null zwraca wartość 0.0
+            // Typ prosty: double przy wartości null zwraca wartość 0.0
             if (!(training.getAverageSpeed() == 0.0)) {
                 trainingExisting.setAverageSpeed(training.getAverageSpeed());
             }
