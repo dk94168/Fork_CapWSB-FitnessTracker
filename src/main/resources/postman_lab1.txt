@@ -1,0 +1,54 @@
+
+# Pobranie wszystkich użytkowników
+curl --location 'localhost:8080/v1/users/fullUsers'
+
+
+# Pobranie wszystkich użytkowników o ograniczonej ilości danych
+curl --location 'localhost:8080/v1/users/smallUsers'
+
+
+# Pobranie użytkownika po jego ID
+curl --location 'localhost:8080/v1/users/byId/3'
+
+
+# Pobranie użytkownika po adresie e-mail
+curl --location 'localhost:8080/v1/users/byEmail/Olivia.davis@domain.com'
+
+
+# Wyszukanie użytkownika po jego adresie e-mail
+curl --location 'localhost:8080/v1/users/byEmailIgnore/Olivia.davis@domain.com
+
+
+# Wyszukanie użytkownika po fragmencie adresu e-mail
+curl --location 'localhost:8080/v1/users/byEmailSearch/Olivia'
+
+
+# Pobranie użytkowników starszych niż podana data urodzenia
+curl --location 'localhost:8080/v1/users/byDateSearch/1984-04-30'
+
+
+# Dodawanie nowego użytkownika
+curl --location 'localhost:8080/v1/users/addUser' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+        "firstName": "Kasia",
+        "lastName": "Nowak",
+        "birthdate": "1997-05-01",
+        "email": "kn@domain.com"
+}'
+
+
+# Aktualizacja danych użytkownika
+curl --location --request PUT 'localhost:8080/v1/users/userUpdate/2' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+        "firstName": "Kasia",
+        "lastName": "Nowak",
+        "birthdate": "1997-05-01",
+        "email": "kn@sokrates.pl"
+}'
+
+
+# Usuwanie użytkownika
+curl --location --request DELETE 'localhost:8080/v1/users/removeUser/2'
+

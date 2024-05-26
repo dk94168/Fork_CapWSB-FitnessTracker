@@ -1,0 +1,57 @@
+
+# Wszystkie treningi
+
+curl --location 'localhost:8080/v1/training/allTrainings'
+
+# Treningi po aktywności
+
+curl --location 'localhost:8080/v1/training/byActivity/WALKING'
+
+# Treningi po dacie
+
+curl --location 'localhost:8080/v1/training/byAfterDate/2024-01-17 09:00:00'
+
+
+# aktualizacja treningu
+
+curl --location --request PUT 'localhost:8080/v1/training/updateTraining/1' \
+--header 'Content-Type: application/json' \
+--data '{
+    "distance": 2.2,
+    "user": 20
+}'
+
+
+# Dodanie nowego treningu
+
+	# sposób 1
+
+curl --location 'localhost:8080/v1/training/addNewTraining' \
+--header 'Content-Type: application/json' \
+--data '{
+    "user": 1,
+    "startTime": "2024-03-19T07:00:00.000+00:00",
+    "endTime": "2024-03-19T08:30:00.000+00:00",
+    "activityType": "CYCLING",
+    "distance": 7.5,
+    "averageSpeed": 12.5
+}'
+
+	# sposób 2
+
+curl --location 'localhost:8080/v1/training/addNewTraining' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+  "user": {
+            "id": 1,
+            "firstName": "Emma",
+            "lastName": "Johnson",
+            "birthdate": "1996-05-16",
+            "email": "Emma.Johnson@domain.com"
+    },
+    "startTime": "2022-10-28T10:00:00",
+    "endTime": "2022-10-28T11:00:00",
+    "activityType": "RUNNING",
+    "distance": 100.5,
+    "averageSpeed": 8.5
+}'
