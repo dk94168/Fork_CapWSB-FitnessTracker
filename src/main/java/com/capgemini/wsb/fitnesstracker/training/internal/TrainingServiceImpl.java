@@ -98,12 +98,12 @@ public class TrainingServiceImpl implements TrainingProvider {
 
                 if (userOptional.isPresent()) {
                     User user = userOptional.get();
-                    log.info("New user:" + user.getId());
+                    log.info("Nowy użytkownik:" + user.getId());
 
                     trainingExisting.setUser(user);
                 } else {
-                    log.info("New user not found with id: " + training.getUser().getId());
-                    throw new IllegalArgumentException("New user not found with id: " + training.getUser().getId());
+                    log.info("Nie znaleziono użytkownika o ID: " + training.getUser().getId());
+                    throw new IllegalArgumentException("Nie znaleziono użytkownika o ID: " + training.getUser().getId());
                 }
             }
 
@@ -129,31 +129,14 @@ public class TrainingServiceImpl implements TrainingProvider {
                 trainingExisting.setAverageSpeed(training.getAverageSpeed());
             }
 
-            log.info("Update Training Data with ID {}", trainingId);
+            log.info("Aktualizacja treningu o ID {}", trainingId);
             trainingRepository.save(trainingExisting);
         } else {
-            log.info("Trainig not found with id: " + trainingId);
-            throw new IllegalArgumentException("Trainig not found with id: " + trainingId);
+            log.info("Nie znaleziono treningu o ID: " + trainingId);
+            throw new IllegalArgumentException("Nie znaleziono treningu o ID: " + trainingId);
         }
 
     }
-
-    //public Training addNewTraining(Training training) {
-    //Optional<User> userOptional = userRepository.findById(training.getUser().getId());
-
-    //User user = userService.getUser(2L);
-
-    //    Training newTraining = new Training(this.setUser(training.getUser().getId()),
-    //                                        this.setStartTime(training.getStartTime()),
-    //                                        this.setEndTime(training.getEndTime()),
-    //                                       this.setActivityType(training.getActivityType()),
-    //                                        this.setDistance(training.getDistance()),
-    //                                        this.setAverageSpeed(training.getAverageSpeed()) );
-
-    //    log.info("Dodanie nowego treningu");
-    //    return trainingRepository.save(newTraining);
-    //return null; //trainingRepository.save(training);
-    //}
 
 
     @Override
@@ -163,7 +146,7 @@ public class TrainingServiceImpl implements TrainingProvider {
         User user = training.getUser();
 
         if (user.getId() == null) {
-            log.info("Nie ma użyytkownika o ID:" + user.getId() );
+            log.info("Nie ma użytkownika o ID:" + user.getId() );
             User savedUser = userRepository.save(user);
             training.setUser(savedUser);
         }
